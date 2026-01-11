@@ -1,0 +1,192 @@
+%YAML:1.0
+
+# ============================================================
+# Photo-SLAM Configuration with Gaussian Keyframe Selection
+# ============================================================
+# Author: Claude AI
+# Date: 11/01/2026
+# Description: Example configuration for TUM RGB-D dataset
+# ============================================================
+
+# ============================================================
+# Camera Parameters
+# ============================================================
+
+Camera.type: "PinHole"
+
+# Camera intrinsics (TUM freiburg1)
+Camera.fx: 517.3
+Camera.fy: 516.5
+Camera.cx: 318.6
+Camera.cy: 255.3
+
+# Distortion parameters
+Camera.k1: 0.2624
+Camera.k2: -0.9531
+Camera.p1: -0.0054
+Camera.p2: 0.0026
+Camera.k3: 1.1633
+
+# Image dimensions
+Camera.width: 640
+Camera.height: 480
+
+# Frame rate
+Camera.fps: 30.0
+
+# Color order (1: RGB, 0: BGR)
+Camera.RGB: 1
+
+# Depth parameters (for RGB-D)
+DepthMapFactor: 5000.0
+ThDepth: 40.0
+
+# ============================================================
+# ORB Extractor Parameters
+# ============================================================
+
+ORBextractor.nFeatures: 1000
+ORBextractor.scaleFactor: 1.2
+ORBextractor.nLevels: 8
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+
+# ============================================================
+# Original Keyframe Selection Parameters (ORB-SLAM3)
+# ============================================================
+
+# Minimum frames between keyframes
+KeyFrame.MinFrames: 0
+
+# Maximum frames without keyframe
+KeyFrame.MaxFrames: 30
+
+# ============================================================
+# NEW: Gaussian Keyframe Selection Parameters
+# ============================================================
+
+# ------------------------------
+# Coverage Parameters
+# ------------------------------
+
+# Coverage threshold [0.0, 1.0]
+# Keyframe created if coverage < this value
+# Lower value = fewer keyframes, possible gaps in reconstruction
+# Higher value = more keyframes, better coverage but slower
+# Recommended: 0.6 - 0.8
+Gaussian.CoverageThreshold: 0.7
+
+# Grid cell size for coverage computation (pixels)
+# Smaller = more precise but slower
+# Larger = faster but less accurate
+# Recommended: 16 - 64
+Gaussian.GridSize: 32
+
+# Minimum Gaussians per grid cell to consider it "covered"
+# Higher = stricter coverage requirement
+# Recommended: 1 - 3
+Gaussian.MinGaussiansPerCell: 1
+
+# ------------------------------
+# Uncertainty Parameters
+# ------------------------------
+
+# Uncertainty threshold [0.0, inf)
+# Keyframe created if uncertainty > this value
+# Lower value = more keyframes, lower uncertainty
+# Higher value = fewer keyframes, accepts higher uncertainty
+# Recommended: 0.2 - 0.4
+Gaussian.UncertaintyThreshold: 0.3
+
+# Weight for distance component in uncertainty
+# Higher = uncertainty increases more with distance
+Gaussian.DistanceWeight: 1.0
+
+# Weight for scale component in uncertainty
+# Higher = larger Gaussians contribute more to uncertainty
+Gaussian.ScaleWeight: 0.5
+
+# Weight for anisotropy component in uncertainty
+# Higher = elongated Gaussians contribute more to uncertainty
+Gaussian.AngleWeight: 0.3
+
+# ------------------------------
+# Information Gain Parameters
+# ------------------------------
+
+# Information gain threshold [0.0, inf)
+# Keyframe created if info gain > this value
+# Lower value = more keyframes from diverse views
+# Higher value = fewer keyframes, only very informative views
+# Recommended: 0.3 - 0.7
+Gaussian.InfoGainThreshold: 0.5
+
+# Optimal baseline angle (degrees)
+# Angle difference from existing views for best reconstruction
+# Recommended: 15 - 30
+Gaussian.OptimalBaselineAngle: 20.0
+
+# Sigma for angle score Gaussian
+# Smaller = sharper preference for optimal angle
+# Larger = more tolerance for angle variation
+Gaussian.AngleScoreSigma: 0.1
+
+# ------------------------------
+# Temporal Constraints
+# ------------------------------
+
+# Minimum frames between keyframes (overrides other conditions)
+# Prevents too frequent keyframe creation
+# Recommended: 3 - 10
+Gaussian.MinKeyframeInterval: 5
+
+# Maximum frames without keyframe (forces keyframe creation)
+# Ensures coverage even in slow-moving scenarios
+# Recommended: 20 - 50
+Gaussian.MaxKeyframeInterval: 30
+
+# ------------------------------
+# Visibility Parameters
+# ------------------------------
+
+# Minimum depth for Gaussian visibility (meters)
+# Gaussians closer than this are ignored
+Gaussian.MinDepth: 0.1
+
+# Maximum depth for Gaussian visibility (meters)
+# Gaussians farther than this are ignored
+Gaussian.MaxDepth: 100.0
+
+# ============================================================
+# 3D Gaussian Splatting Parameters
+# ============================================================
+
+# Initial opacity for new Gaussians
+Gaussian.InitOpacity: 0.5
+
+# Initial scale factor
+Gaussian.InitScale: 0.01
+
+# Densification interval (iterations)
+Gaussian.DensifyInterval: 100
+
+# Opacity threshold for pruning
+Gaussian.OpacityThreshold: 0.005
+
+# Gradient threshold for densification
+Gaussian.GradThreshold: 0.0002
+
+# ============================================================
+# Viewer Parameters
+# ============================================================
+
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1.0
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2.0
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3.0
+Viewer.ViewpointX: 0.0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500.0
